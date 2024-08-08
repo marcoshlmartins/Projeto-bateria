@@ -1,165 +1,66 @@
-let botao = document.querySelector('.botao')
+let botao = document.querySelector('.botao');
 
-
-function tocar(event){
-
-
-let letraClicada = event.key.toUpperCase()
-
-
-if (event.key === 'q' ||event.key==='Q'){
- audio.innerHTML = `<audio src="audios/keyq.wav" id="audio"></audio>`
-
-let rodar = document.getElementById('audio')
-
-
-mudarBorda(letraClicada);
-setTimeout(()=> voltarBorda(letraClicada),300)
-
-
-
-
-rodar.play()
-
-} else if (event.key === 'w' ||event.key==='W'){
-        audio.innerHTML = `<audio src="audios/keyw.wav" id="audio"></audio>`
-       
-       let rodar = document.getElementById('audio')
-       mudarBorda(letraClicada);
-setTimeout(()=> voltarBorda(letraClicada),300)
-
-       
-       rodar.play()
-       
-       } else if (event.key === 'e' ||event.key==='E'){
-        audio.innerHTML = `<audio src="audios/keye.wav" id="audio"></audio>`
-       
-       let rodar = document.getElementById('audio')
-       
-       mudarBorda(letraClicada);
-       setTimeout(()=> voltarBorda(letraClicada),300)
-
-       rodar.play()
-       
-       } else if (event.key === 'a' ||event.key==='A'){
-        audio.innerHTML = `<audio src="audios/keya.wav" id="audio"></audio>`
-       
-       let rodar = document.getElementById('audio')
-       
-       mudarBorda(letraClicada);
-setTimeout(()=> voltarBorda(letraClicada),300)
-
-       rodar.play()
-       
-       } else if (event.key === 's' ||event.key==='S'){
-        audio.innerHTML = `<audio src="audios/keys.wav" id="audio"></audio>`
-       
-       let rodar = document.getElementById('audio')
-       
+function tocar(letraClicada) {
+    letraClicada = letraClicada.toUpperCase();
     
-       mudarBorda(letraClicada);
-       setTimeout(()=> voltarBorda(letraClicada),300)
-       rodar.play()
-       
-       } else if (event.key === 'd' ||event.key==='D'){
-        audio.innerHTML = `<audio src="audios/keyd.wav" id="audio"></audio>`
-       
-       let rodar = document.getElementById('audio')
-       
-       mudarBorda(letraClicada);
-       setTimeout(()=> voltarBorda(letraClicada),300)
-       rodar.play()
-       
-       } else if (event.key === 'z' ||event.key==='Z'){
-        audio.innerHTML = `<audio src="audios/keyz.wav" id="audio"></audio>`
-       
-       let rodar = document.getElementById('audio')
-       mudarBorda(letraClicada);
-setTimeout(()=> voltarBorda(letraClicada),300)
-       rodar.play()
-       
-       } else if (event.key === 'x' ||event.key==='X'){
-        audio.innerHTML = `<audio src="audios/keyx.wav" id="audio"></audio>`
-       
-       let rodar = document.getElementById('audio')
-       mudarBorda(letraClicada);
-setTimeout(()=> voltarBorda(letraClicada),300)
+    if ('QWERTASDZXC'.includes(letraClicada)) {
+        audio.innerHTML = `<audio src="audios/key${letraClicada}.wav" id="audio"></audio>`;
 
-       rodar.play()
-       
-       } else if (event.key === 'c' ||event.key==='C'){
-        audio.innerHTML = `<audio src="audios/keyc.wav" id="audio"></audio>`
-       
-       let rodar = document.getElementById('audio')
-       
-       mudarBorda(letraClicada);
-       setTimeout(()=> voltarBorda(letraClicada),300)
-       rodar.play()
-       
-       }
+        let rodar = document.getElementById('audio');
+
+        mudarBorda(letraClicada);
+        setTimeout(() => voltarBorda(letraClicada), 300);
+
+        rodar.currentTime = 0;
+        rodar.play();
+    }
 }
 
-function mudarBorda(key){
+function playComposition(letraRecebida) {
 
-    let botao = document.querySelector(`#botao${key}`)
-
-    if (botao){
-    botao.style.borderColor = 'orange';
+       let wait = 0
+    for (let i = 0; i < letraRecebida.length; i++) {
+       setTimeout(() => {
+              tocar(letraRecebida[i]);  
+       }, wait);
+       wait += 250;
     }
 
-    
-
-    
-
-
-
+   
 }
 
-function voltarBorda(key){
+function mudarBorda(key) {
+    let botao = document.querySelector(`#botao${key}`);
 
-
-    let botao = document.querySelector(`#botao${key}`)
-if (botao){
-    botao.style.borderColor = 'white';
+    if (botao) {
+        botao.style.borderColor = 'orange';
+    }
 }
 
+function voltarBorda(key) {
+    let botao = document.querySelector(`#botao${key}`);
 
+    if (botao) {
+        botao.style.borderColor = 'white';
+    }
 }
 
+let criar = document.querySelector('#tocar');
 
+criar.addEventListener('click', criarComposicao);
 
+function criarComposicao() {
+    let input = document.querySelector('#criarComposicao').value;
 
-    
+    if (input != "") {
+        playComposition(input.toUpperCase());
+    } else {
+        alert('Você não digitou nada, impossível criar uma composição.');
+    }
+}
 
+let audio = document.querySelector('#som');
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-let audio = document.querySelector('#som')
-
-let corpo = document.querySelector('body').addEventListener('keydown',tocar)
-
-let teclaQ = document.querySelector('#botaoQ')
-let teclaW = document.querySelector('#botaoW')
-let teclaE = document.querySelector('#botaoE')
-let teclaA = document.querySelector('#botaoA')
-let teclaS = document.querySelector('#botaoS')
-let teclaD = document.querySelector('#botaoD')
-let teclaZ = document.querySelector('#botaoZ')
-let teclaX = document.querySelector('#botaoX')
-let teclaC = document.querySelector('#botaoC')
+document.body.addEventListener('keydown', (event) => {
+    tocar(event.key);
+});
